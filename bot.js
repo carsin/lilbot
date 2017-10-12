@@ -2,38 +2,31 @@ console.log("Bot is starting...");
 
 const config = require("./config.js");
 // const Twit = require("twit");
-const Lyrics = require("lyricist");
+const geniusapi = require("genius-api");
 
-const lyricist = new Lyrics(config.geniuscfg.clientAccessToken);
 
-async function getSongs() {
-    return songs = await lyricist.songsByArtist(2, { page: 2, perPage: 50 });
+// genius API does not have an artist entrypoint.
+// Instead, search for the artist => get a song by that artist => get API info on that song => get artist id
+
+geniusapi.prototype.getArtistIdByName = function getArtistIdByName(artistName) {
+    const normalizeName = name => name.replace(/\./g, '').toLowerCase();   // regex removes dots
+    const artistNameNormalized = normalizeName(artistName);
+
+    return this.search(artistName).then((response) => {
+        for (let i = 0; i < response.hits.length; i += 1) {
+            const hit = response.hits[i];
+            if (hit.type === 'song' && normalizeName(hit.result.primary_artist.name) === artistNameNormalized) {
+                return hit.result;
+            }
+        }
+    }).then(songInfo => songInfo.primary_artist.id);
 }
 
-async function findLilYachtyId() {
-    var curArtist = "";
-    var curArtistName = "";
-    var i = 11;
+const Genius = new geniusapi(config.geniuscfg.clientAccessToken);
 
-    while (curArtistName !== "Lil Yachty") {
-        curArtist = await lyricist.artist(i);
-        curArtistName = curArtist.name;
-        console.log(i + ": " + curArtistName);
-        i++;
-    }
-
-    console.log(i)
-}
-
-async function findArtist(id) {
-    const artist = await lyricist.artist(id);
-    console.log(artist.name);
-}
-
-findArtist(9);
-
-// findLilYachtyId();
-
+Genius.getArtistIdByName('Lil Yachty')
+.then(artistId => console.log(artistId))
+.catch(err => console.error(err))
 
 // var T = new Twit(config.twitcfg);
 
