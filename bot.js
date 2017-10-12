@@ -16,7 +16,7 @@ async function tweetSongLyric() {
     goodLyric = false;
     while (goodLyric === false) {
         var songLyric = songLyrics[Math.floor(Math.random() * songLyrics.length)]
-        if (songLyric.startsWith("[") === false) {
+        if (songLyric.startsWith("[") === false && songLyric !== "") {
             songLyric = "\"" + songLyric + "\" - " + song.title + " by Lil Yachty";
             T.post('statuses/update', { status: songLyric }, function(err, data, response) {
                 if (err) {
@@ -31,4 +31,8 @@ async function tweetSongLyric() {
     }
 }
 
-tweetSongLyric();
+setInterval(() => {
+    var num = Math.random();
+    console.log(num);
+    if (num < 0.0025) tweetSongLyric();
+}, 1000);
