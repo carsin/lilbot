@@ -1,5 +1,3 @@
-console.log("Bot is starting...");
-
 const config = require("./config.js");
 const songs = require("./songs.js");
 const Twit = require("twit");
