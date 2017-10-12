@@ -1,12 +1,39 @@
 console.log("Bot is starting...");
 
 const config = require("./config.js");
-const Twit = require("twit");
-const Lyricist = require("lyricist");
+// const Twit = require("twit");
+const Lyrics = require("lyricist");
 
-const lyrics = new Lyricist(config.geniuscfg.clientAccessToken);
+const lyricist = new Lyrics(config.geniuscfg.clientAccessToken);
 
-lyrics.song(714198).then(song => console.log(song.title));
+async function getSongs() {
+    return songs = await lyricist.songsByArtist(2, { page: 2, perPage: 50 });
+}
+
+async function findLilYachtyId() {
+    var curArtist = "";
+    var curArtistName = "";
+    var i = 11;
+
+    while (curArtistName !== "Lil Yachty") {
+        curArtist = await lyricist.artist(i);
+        curArtistName = curArtist.name;
+        console.log(i + ": " + curArtistName);
+        i++;
+    }
+
+    console.log(i)
+}
+
+async function findArtist(id) {
+    const artist = await lyricist.artist(id);
+    console.log(artist.name);
+}
+
+findArtist(9);
+
+// findLilYachtyId();
+
 
 // var T = new Twit(config.twitcfg);
 
