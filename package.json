@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/carsin/twitter-bot#readme",
   "dependencies": {
+    "genius-api": "^0.4.1",
     "twit": "^2.2.9"
   }
 }
