@@ -42,7 +42,6 @@ async function tweetSongLyric() {
         var songLyric = songLyrics[Math.floor(Math.random() * songLyrics.length)]
         if (songLyric.startsWith("[") === false && songLyric !== "") {
             songLyric = "\"" + songLyric + "\" - " + song.title + " by " + song.primary_artist.name + " #" + song.primary_artist.name.replace(/\s+/g, '') + " #lit #poet #rap #lilbot";
-            console.log(songLyric);
             T.post('statuses/update', { status: songLyric }, function(err, data, response) {
                 if (err) {
                     console.log("An error occured.");
