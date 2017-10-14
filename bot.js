@@ -35,5 +35,5 @@ async function tweetSongLyric() {
 setInterval(() => {
     var num = Math.random();
     console.log(num);
-    if (num > 0.985) tweetSongLyric();
+    if (num > 0.995) tweetSongLyric();
 }, 1000);
